@@ -6,7 +6,6 @@ git_source(:github) do |repo_name|
 end
 
 gem 'rails', '~> 5.0.3'
-gem 'sqlite3'
 gem 'puma', '~> 3.0'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sass-rails', '~> 5.0'
@@ -22,11 +21,18 @@ gem 'attachinary'
 gem "figaro"
 
 group :development, :test do
-  gem 'byebug', platform: :mri
+  gem 'byebug'
+  gem 'sqlite3'
+  gem 'faker'
+end
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
