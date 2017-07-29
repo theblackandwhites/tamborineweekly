@@ -1,0 +1,30 @@
+<div class="wrapper" style="background-color: #e5e5e5; font-family: helvetica, arial, sans-serif; padding: 50px;">
+	<div class="body_container" style="background-color: #fff; padding: 20px; margin:auto; width: 600px;">
+		<div class="logo">
+			<img src="http://res.cloudinary.com/theblackandwhites/image/upload/v1501220372/tamborine_weekly/Logomakr_27QQa1.png" alt="Tamborine Weekly" width="180">
+		</div>
+		<div class="content" style="color: #20232d">
+			<h1>Congratulations, a new order has been received.</h1>
+			<h2><span style="color: #4fc090"><%= @customer.first_name %></span> has requested <span style="color: #4fc090"><%= @cart.product.title %></span>. This product will be picked up <span style="color: #4fc090"><%= @pickup %></span> paid with cash. Although we do ask the customer to have the correct change. It's always best to have some petty cash on hand just in case. Remember, the better the customer service the more likley the customer is to return.</h2>
+
+			<p style="color: #566473;"><small>PLEASE ALSO NOTE, THAT AS PART OF THE TERMS AND CONDITIONS YOU WILL HAVE TO HOLD THE PRODUCT FOR THIS ORDER FOR A MAXIMUM OF 48 HRS. IF THE ORDER IS NOT PICKED UP WITHIN THIS TIMEFRAME YOU MAY RELIST THE PRODUCT. THIS CLAUSE IS IN PLACE TO CATER FOR THOSE THAT FOR WHATEVER REASON CAN'T PICK UP THE PRODUCE IN THE TIME LISTED ABOVE.</small></p>
+
+			<table style="margin-top: 40px; border: none" cellpadding="10">
+				<tr valign="middle" style="background-color: #20232d; padding: 10px;">
+					<td style="font-size: 16px; color: #4fc090; width: 33%"><%= @cart.product.title %></td>
+					<td style="font-size: 16px; color: #fff; width: 33%"><%= pluralize(@cart.quantity, @cart.product.label) %></td>
+					<td style="font-size: 16px; color: #fff; width: 33%"><%= number_to_currency(@cart.price,  :precision => 0) %> Cash in hand</td>
+				</tr>
+				<tr valign="middle" style="padding: 10px;">
+					<td style="font-size: 16px;"><strong>Quantity Left</strong></td>
+					<td style="font-size: 16px;"><%= @product.updated_quantity %></td>
+					<td><%= link_to "UPDATE PRODUCT", edit_product_url(@product.id) %></td>
+				</tr>
+			</table>
+			
+			<div style="padding: 40px 0; text-align: center;">
+				<h4>Thanks for using Tamborine Weekly. We're working hard to support the community by generating opportunity and a healthy lifestyle for the residents of Tamborine Mountain.</h4>
+			</div>
+		</div>
+	</div>
+</div>

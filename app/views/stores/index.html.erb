@@ -1,0 +1,40 @@
+<div class="container">
+
+<% if @stores.blank? %>
+    <div class="text-center"><h2>You need to create a store first</h2>
+      <%= link_to "CREATE A STORE", new_store_path, class: "btn btn-success btn-lg" %>
+    </div>
+<% else %>
+<div class="pull-left"><h1>My Stores</h1></div>
+<%= link_to 'New Store', new_store_path, class: "btn btn-success btn-lg pull-right" %>
+
+<table class="table" style="margin-top: 40px;">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Pickup details</th>
+      <th>Open times</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+    <% @stores.each do |store| %>
+      <tr>
+        <td><%= store.address %></td>
+        <td><%= store.pickup_details %></td>
+        <td><%= store.open_times %></td>
+        <td><%= link_to 'Show Products', store %></td>
+        <td><%= link_to 'Edit', edit_store_path(store) %></td>
+        <td><%= link_to 'Destroy', store, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+</div>
+
+
+
+

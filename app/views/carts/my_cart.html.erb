@@ -1,0 +1,99 @@
+<div class="container text-center preloader">
+	<div class="text-center ">
+		<div class="sk-folding-cube">
+		  <div class="sk-cube1 sk-cube"></div>
+		  <div class="sk-cube2 sk-cube"></div>
+		  <div class="sk-cube4 sk-cube"></div>
+		  <div class="sk-cube3 sk-cube"></div>
+		</div>
+		<br />
+		<h4>Great, we are now preparing your list and notifying the store owner of your arrival.</h4> <h4>One momento!</h4>
+	</div>
+</div>
+
+<div class="container text-center fadecontent">
+		<div class="col-md-5 col-sm-12">
+				<h1>YUUUM! FRESH PRODUCE AT LAST, AM I RIGHT?</h1>
+				<p>
+				You're nearly finished, just review your cart and click generate shopping list when you have finished. We'll generate a nice PDF docusment for you so you know where to pick up your produce.
+				</p>
+			</div>
+			
+			<div class="col-md-7 col-sm-12 text-left">
+				<ul>
+					<li class="row list-inline columnCaptions">
+						<span>Image</span>
+						<span>ITEM</span>
+						<span>Price</span>
+					</li>
+
+					<% @carts.each do |cart| %>
+					<li class="row">
+						<span class="quantity"><%= cart.quantity %></span>
+						<span class="itemName"><%= cart.product.title %></span>
+						<span class="popbtn"><%= link_to delete_product_path(:c => cart.id) do %><i class="fa fa-times" aria-hidden="true"></i><% end %></span>
+						<span class="price"><%= number_to_currency(cart.product.price.to_f * cart.quantity.to_f) %></span>
+					</li>
+					<% end %>
+					
+					<li class="row" style="padding:10px; background-color: #38495b; color: #fff; text-align: right;">
+						<span style="color: #fff; font-size: 16px;">Total: </span>
+						<span style="color: #4fc090; font-size: 24px;"><%= number_to_currency(@cart_total) %></span>
+					</li>
+											<!-- Button trigger modal -->
+<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" >
+  GENERATE SHOPPING LIST
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body text-center">
+	      	
+		<h3>When you plan on picking up your local produce?</h3>
+		<p>We ask this so that our suppliers know when they can expect you. Produce can be held for maximum of 2 days, if you don't pick up your produce within this time your items maybe resold without notice.</p>
+		<select name="mydate" id="mydate">
+			<option value="today">Today</option>
+			<option value="tomorrow">Tomorrow</option>
+			<option value="day_after">The day after tomorrow</option>
+		</select><br />
+        <div id="gen_list" class="btn btn-success btn-lg" data-dismiss="modal" style="margin-top: 40px;">Finalise Shopping List</div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+				</ul>
+			</div>
+
+		</div>
+
+
+<div class="products-footer" style="width: 100%; position: fixed; bottom: 0; padding-top: 10px; padding-bottom: 10px; background-color: #20232D;">
+  <div class="container">
+    <div class="pull-left" style="color: #fff;">
+      <%= link_to "GO BACK - CONTINUE SHOPPING", products_path, class: "btn btn-lg btn-danger" %>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" >
+  GENERATE SHOPPING LIST
+</button>
+    </div>
+  </div>
+</div>
+
+		<script>
+			$("#gen_list").click(function () {
+			     $('.fadecontent').fadeOut('slow', function() {
+			        $('.preloader').fadeIn('slow');
+			    });
+
+			    window.setTimeout(function() {
+			    	var selectedoption = $( "#mydate option:selected" ).text();
+				    window.location.href = 'http://localhost:3000/generate_list?qu=' + selectedoption;
+				}, 2000);
+			})
+		</script>

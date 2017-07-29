@@ -1,0 +1,31 @@
+<style>
+  .nav-spacer {display: none;}
+</style>
+<div style="background-color: #20232d; height: 100vh; padding-top: 100px;">
+<div class="container">
+  <div class="col-md-4 col-md-offset-4">
+  <div class="form-box">
+    <div class="text-center"><img src="http://res.cloudinary.com/theblackandwhites/image/upload/v1501220372/tamborine_weekly/Logomakr_27QQa1.png" alt="Tamborine Weekly" width="200"></div> 
+    <br>
+    <br>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group float-label-control">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, placeholder: "Email", style: "padding-top:10px;" %>
+      </div>
+      <div class="form-group float-label-control">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "off", placeholder: "Password", style: "padding-top:10px;" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Log in to your account", class: "btn btn-success btn-lg" %>
+      </div>
+    <% end %>
+    <br>
+    <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+</div>
+

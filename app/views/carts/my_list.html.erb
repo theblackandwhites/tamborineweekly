@@ -1,0 +1,81 @@
+<div class="container text-center">
+
+			
+			<div class="col-md-12 col-sm-12 text-left">
+			
+
+		
+
+				<table  class="table table-bordered table-hover">
+					<% if @lists.blank? %>
+					<tr style="padding: 10px 0">
+						<td style="text-align: center;">
+							<h3>Hooray you have nothing more on your shopping list.</h3>
+							<%= link_to "WOULD YOU LIKE TO ADD MORE PRODUCTS", products_path, class: "btn btn-lg btn-success", style: "margin: 20px 0;"%>
+						</td>
+					</tr>
+					<% end %>	
+					<% @lists.each do |list| %>
+
+					<tr style="padding: 10px 0">
+						<td width="150" style="padding: 0;">
+							<% if list.product.photo? %>
+								<% if list.completed? %>
+									<%= cl_image_tag(list.product.photo.path, { :height=>150, :width=>150, :crop=>"fill", :effect=>"grayscale" }) %>
+								<% else %>
+                  					<%= cl_image_tag(list.product.photo.path, { :height=>150, :width=>150, :crop=>"fill" }) %>
+                  				<% end %>
+                			<% end %>
+                		</td>
+						<td width="60%">
+							<table>
+								<tr>
+									<td width="53%">
+										<table>
+											<tr>
+												<td><span class="itemDesc">
+												<% if list.completed? %>
+													<h4 style="text-decoration: line-through;"><%= list.quantity %>X <%= list.product.title %></h4>
+												<% else %>
+													<h4><%= list.quantity %>X <%= list.product.title %></h4>
+												<% end %>
+												</span></td>
+											</tr>
+											<tr>
+												<td><div class="itemDesc" style="padding-bottom: 15px;"><strong>Address: </strong><br /><span style="font-size: 12px;"><%= list.product.store.address %></span></div><br />
+												<span class="itemDesc"><%= link_to "View Map", "https://www.google.com/maps/dir/?api=1&origin=#{current_user.address}&destination=#{list.product.store.address}-Tamborine-Mountain-4272", class: "btn-info btn-sm", target: "_blank"%></span> 
+
+												
+
+												</td>
+											<tr>
+												
+											</tr>
+										</table>
+									</td>
+									<td width="23%"><span class="itemDesc"><strong>Open times: </strong><br /><span style="font-size: 12px;"><%= list.product.store.open_times %></span></span></td>
+									<td width="33%"><span class="itemDesc"><strong>Pickup Details: </strong><br /><span style="font-size: 12px; line-height: 10px;"><%= list.product.store.pickup_details %></span></span></td>
+										
+							
+								</tr>		
+							</table>	
+						</td>
+						<td  valign="middle" ><div class="pricelist text-center"><% if list.completed? %><span style="color: #d1d1d1"><%= number_to_currency(list.product.price * list.quantity) %></span><% else %><%= number_to_currency(list.product.price * list.quantity) %><% end %></div></td>
+						<td style="text-align: center; <% if list.completed? %>background-color: #d1d1d1<% else %>background-color: #4fc090<% end %>" valign="middle">
+				
+								<% if list.completed? %>
+									<%= button_to "DONE", "#",class: "btn btn-block btn-lg", style:"color:#fff; background-color:rgba(0,0,0,0); border:0; " %>
+								<% else %>
+									<%= button_to "I've done this", remove_list_path(:c => list.id), class: "btn btn-block btn-lg", style:"color:#fff; background-color:rgba(0,0,0,0); border:0; " %>
+									<%= link_to "I don't need this anymore", trash_list_item_path(:l => list), class: "btn btn-sm btn-danger", style: "margin-top:20px;", :data => {:confirm => "Are you sure you don't need this anymore?"} %>
+								<% end %>
+			
+						</td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+
+</div>
+
+

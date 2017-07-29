@@ -1,0 +1,76 @@
+<div class="container text-center" style="margin-bottom: 100px;">
+
+
+    <div class="col-md-6 col-md-offset-3 col-sm-12">
+      <h1>Let's go shopping</h1>
+      <p>
+        Everything you see here is produced by our local community. I was sick of going to major shopping centres only to find their produce was tasteless, over priced and unatural. After driving around the mountain it was clear that lots of people have enough produce to share around the community. This is a project designed to see if we can work selling what we don't need to a neighbour and earning enough to buy what we do need from another neighbour. 
+      </p>
+    </div>
+
+
+    <div class="spacer"></div>
+
+      <% @products.each do |product| %>
+        <div class="col-md-3 col-sm-12">
+          <div class="product-card">
+
+            <div class="product-card-img">
+                 
+                <% if product.photo? %>
+                  <%= cl_image_tag(product.photo.path, { :height=>180, :width=>245, :crop=>"fill" }) %>
+                <% end %>
+                <div class="store-front-img">
+                <% if product.store.store_front? %>
+                  <%= cl_image_tag(product.store.store_front.path, { size: '70x70', crop: :thumb, gravity: :face}) %>
+                <% end %>
+              </div>
+                
+
+            </div>
+            <h4><%= product.title %></h4>
+            <% if product.organic? %>
+              <div><span class="label label-success">Organic</span></div>
+            <% end %>
+            <div class="product-card-desc text-left">
+              <%= product.description %>
+            </div>
+            <div class="product-card-price">
+              <span><%= number_to_currency(product.price) %></span> / <%= product.label %>
+            </div>
+          <% @updated_quantity = product.updated_quantity.to_f %>
+
+          <% if @active_lists.blank? %>
+            <%= form_for product, :url => update_cart_path do |f| %>
+              <div style="padding: 0 40px;">
+                <div class="form-group">
+                  <small>CHOOSE A QUANTITY</small>
+                  <%= f.select :quantity, ((1..@updated_quantity).map {|i| [i,i] }), {prompt: 'Please select ...' }, class: "form-control" %>
+                </div>  
+              </div>
+                <%= f.hidden_field :product_field, value: product.id, class: "form-control", :prompt => 'Qnty' %>
+              <%= f.submit "ADD ITEM", class: "btn btn-success btn-lg" %>
+            <% end %>
+          <% else %>
+          <h6>You currently already have a shopping list generated you will need to complete your list before continuing. <%= link_to "Click here to clear it", my_list_path %>.</h6>
+          <% end %>
+
+          </div>        
+        </div>
+      <% end %>
+
+
+ 
+
+</div>
+
+<div class="products-footer" style="width: 100%; position: fixed; bottom: 0; padding-top: 10px; padding-bottom: 10px; background-color: #20232D;">
+  <div class="container">
+    <div class="pull-left" style="color: #fff;">
+      <h4>Finished Shopping?</h4>
+    </div>
+    <div class="pull-right">
+      <%= link_to "NEXT STEP - SHOPPING CART", my_cart_path, class: "btn btn-lg btn-success" %>
+    </div>
+  </div>
+</div>

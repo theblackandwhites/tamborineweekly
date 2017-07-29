@@ -1,0 +1,110 @@
+<%= form_for(product) do |f| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group" style="margin-top: 40px; margin-bottom:40px; background-color: #eff3f9; padding: 10px;">
+    <span style="font-size: 12px; color: #566473;">Upload an image of your product</span>
+    <%= f.attachinary_file_field :photo, class: "form-control", :required => true %>
+  </div>
+
+  <div class="form-group float-label-control">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control", id: "quote_product", placeholder: "Title eg: Lemons or Avocados", maxlength: "25", :required => true %>
+    <div style="text-align: right; font-size: 12px;"><span  id="textarea_feedback_title" style="color: #4fc090;"></span> characters remaining</div>
+  </div>
+
+  <div class="form-group float-label-control">
+  <%= f.collection_select :category_id, Category.all, :id, :title, class: "form-control", :prompt => 'Choose a Category...', :required => true %>
+  </div>
+
+  <div class="form-group float-label-control">
+    <%= f.label :quantity %>
+    <%= f.text_field :quantity, class: "form-control", placeholder: "How many do you have", :required => true %>
+  </div>
+
+  <div class="form-group float-label-control">
+    <%= f.text_field :price, class: "form-control", id: "quote_price", placeholder: "Cost: 0.2 for 20c or 1 for $1", :required => true %>
+  </div>
+
+  <div class="form-group float-label-control">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control", placeholder: "Write a little about your product", id: "textarea", rows: 3, maxlength: "80", :required => true %>
+    <div style="text-align: right; font-size: 12px;"><span  id="textarea_feedback" style="color: #4fc090;"></span> characters remaining</div> 
+  </div>
+
+  <div class="form-group float-label-control">
+    <p><span style="font-size: 12px; color: #566473;">Fill in the missing blanks:</span>
+    <span style="font-size: 16px; color: #4fc090;"><br />My <strong><span class="quote_product"></span></strong> cost <strong>$<span class="quote_price"></span></strong> per <span class="quote_label">...</span></span></p>
+    <%= f.text_field :label, id:"quote_label", class: "form-control", placeholder: "eg: box, bunch, avocado", :required => true %>
+  </div>
+
+
+
+  <div class="form-group float-label-control">
+    <%= f.label :store_id %>
+     <%= f.collection_select :store_id, Store.where(user_id: current_user.id).all, :id, :address, class: "form-control", :prompt => 'Select your store', :required => true %>
+  </div>
+
+  <div class="row" style="background-color:#20232d; color: #fff; padding: 20px 0;">
+  <div class="col-xs-3 text-right"><%= f.check_box :organic, class: "float-left" %></div>
+  <div class="col-xs-9">Is your product organic?</div>
+  
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create Product", class: "btn btn-lg btn-block btn-success" %>
+  </div>
+<% end %>
+
+
+<script>
+
+$(document).ready(function() {
+    var text_max = 80;
+    $('#textarea_feedback').html(text_max);
+
+    $('#textarea').keyup(function() {
+        var text_length = $('#textarea').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#textarea_feedback').html(text_remaining);
+    });
+});
+
+$(document).ready(function() {
+    var text_max = 25;
+    $('#textarea_feedback_title').html(text_max);
+
+    $('#quote_product').keyup(function() {
+        var text_length = $('#quote_product').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#textarea_feedback_title').html(text_remaining);
+    });
+});
+
+
+$('#quote_product').keyup(function() {
+  $(".quote_product").text($("#quote_product").val());
+});
+
+$('#quote_price').keyup(function() {
+  $(".quote_price").text($("#quote_price").val());
+});
+$('#quote_label').keyup(function() {
+  $(".quote_label").text($("#quote_label").val());
+});
+
+
+
+
+</script>

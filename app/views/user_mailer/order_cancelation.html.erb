@@ -1,0 +1,26 @@
+<div class="wrapper" style="background-color: #e5e5e5; font-family: helvetica, arial, sans-serif; padding: 50px;">
+	<div class="body_container" style="background-color: #fff; padding: 20px; margin:auto; width: 600px;">
+		<div class="logo">
+			<img src="http://res.cloudinary.com/theblackandwhites/image/upload/v1501220372/tamborine_weekly/Logomakr_27QQa1.png" alt="Tamborine Weekly" width="180">
+		</div>
+		<div class="content" style="color: #20232d">
+			<h1>Sorry, the customer has cancelled this order :(</h1>
+			<h2><span style="color: #4fc090"><%= @customer.first_name %></span> has unfortunately cancelled the following order. We have already updated your stock inventory, so you don't need to worry. Hang tight we will try to send you another order shortly.
+			<table style="margin-top: 40px; border: none" cellpadding="10">
+				<tr valign="middle" style="background-color: #20232d; padding: 10px;">
+					<td style="font-size: 16px; color: #4fc090; width: 33%"><%= @list.product.title %></td>
+					<td style="font-size: 16px; color: #fff; width: 33%"><%= pluralize(@list.quantity, @list.product.label) %></td>
+					<td style="font-size: 16px; color: #fff; width: 33%"><%= number_to_currency(@list.price,  :precision => 0) %> Cash in hand</td>
+				</tr>
+				<tr valign="middle" style="padding: 10px;">
+					<td style="font-size: 16px;"><strong>Quantity Left</strong></td>
+					<td style="font-size: 16px;"><%= @product.updated_quantity %></td>
+					<td><%= link_to "UPDATE PRODUCT", edit_product_url(@product.id) %></td>
+				</tr>
+			</table>
+			<div style="padding: 40px 0; text-align: center;">
+				<h4>Thanks for using Tamborine Weekly. We're working hard to support the community by generating opportunity and a healthy lifestyle for the residents of Tamborine Mountain.</h4>
+			</div>
+		</div>
+	</div>
+</div>

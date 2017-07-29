@@ -1,0 +1,62 @@
+<div class="container text-center">
+
+
+    <div class="col-md-6 col-md-offset-3 col-sm-12">
+      
+
+      <% if @products.blank? %>
+        <div class="text-center">
+          <h2>You aren't selling anything yet!</h2>
+          <%= link_to "ADD A NEW PRODUCT", new_product_path, class: "btn btn-success btn-lg", style: "margin-top:20px;" %>
+        </div>
+      <% else %>
+        <h2>Here are all the products you sell in this store</h2>
+      <% end %>
+
+    </div>
+
+
+    <div class="spacer"></div>
+
+      <% @products.each do |product| %>
+        <div class="col-md-3 col-sm-12">
+          <div class="product-card">
+
+            <div class="product-card-img">
+                 
+                <% if product.photo? %>
+                  <%= cl_image_tag(product.photo.path, { :height=>180, :width=>245, :crop=>"fill" }) %>
+                <% end %>
+                <div class="store-front-img">
+                <% if product.store.store_front? %>
+                  <%= cl_image_tag(product.store.store_front.path, { size: '70x70', crop: :thumb, gravity: :face}) %>
+                <% end %>
+              </div>
+                
+
+            </div>
+            <h4><%= product.title %></h4>
+            <% if product.organic? %>
+              <div><span class="label label-success">Organic</span></div>
+            <% end %>
+            <div class="product-card-desc text-left">
+              <%= product.description %>
+            </div>
+            <div class="product-card-price">
+              <span><%= number_to_currency(product.price) %></span> / <%= product.label %>
+            </div>
+
+            <% @updated_quantity = product.updated_quantity.to_f.ceil %>
+
+            You currently have <strong style="<% if @updated_quantity < 1 %> color: #d1411d; <% else %> color: #4fc090; <% end %>"><%= @updated_quantity.round %></strong> left!
+            <hr>
+            <%= link_to "Update this product", edit_product_path(product), class: "btn btn-success"%>
+
+          </div>        
+        </div>
+      <% end %>
+
+
+ 
+
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TamborineWeekly</title>
+    <%= csrf_meta_tags %>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<%= cloudinary_js_config %>
+  </head>
+
+  <body>
+
+<% if user_signed_in? %>
+<nav class="navbar">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to root_path do %>
+        <img src="http://res.cloudinary.com/theblackandwhites/image/upload/v1501220372/tamborine_weekly/Logomakr_7NO21V.png" alt="Tamborine Weekly" width="250">
+      <% end %>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-top: 20px;">
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "GO SHOPPING", products_path %></li>
+        <li><%= link_to "All Your Products", my_products_path %></li>
+        <li><%= link_to "My Stores", stores_path %></li>
+
+        <li>
+        <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+        </li>
+        <% @mystore = Store.where(user_id: current_user.id) %>
+        <% if @mystore.blank? %>
+          <li><%= link_to "CREATE A STORE", new_store_path, class: "btn btn-success btn-lg" %></li>
+        <% else %>
+          <li><%= link_to "ADD A NEW PRODUCT", new_product_path, class: "btn btn-success btn-lg" %></li>
+        <% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+	<div class="container-fluid breadcrumbBox text-center">
+		<ol class="breadcrumb">
+			<li><%= link_to "Shopping", products_path, :class => current_class?(products_path) %></li>
+			<li><%= link_to "My cart", my_cart_path, :class => current_class?(my_cart_path) %></li>
+			<li><%= link_to "Build my shopping list", my_list_path, :class => current_class?(my_list_path) %></li>
+		</ol>
+	</div>
+<% end %>
+
+
+	<% flash.each do |type, content| %>
+	    <% if content.respond_to?('each') 
+	        content.each do |item| %>
+	            <%= render 'layouts/alert', 
+	                type: type,
+	                content: item %>
+	        <% end %>
+	    <% else %>
+	        <%= render 'layouts/alert', 
+	                type: type,
+	                content: content %>
+	    <% end %>
+
+	<% end %>
+
+	<div class="nav-spacer"></div>
+
+    <%= yield %>
+    
+    <!-- The popover content -->
+
+	<div id="popover" style="display: none">
+		<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+		<a href="#"><span class="glyphicon glyphicon-remove"></span></a>
+	</div>
+
+  </body>
+</html>
